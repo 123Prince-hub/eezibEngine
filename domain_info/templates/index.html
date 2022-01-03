@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+  <form method="post" class="mx-auto m-4 w-50">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-8">
+          <input class='form-control' type="text" name="domain" placeholder="Enter Domain">
+        </div>
+        <div class="col-sm-4">
+      <input class="btn btn-info" type="submit" value="Find">
+      </div>
+    </div>
+  </form>
+</div>
+    <div class="container">    
+      <hr>
+
+<form action="{% url 'multi_ports' %}" method="get">
+  <input type="hidden" value="" name="subdmn" id="subdomain">
+  <input type="submit" id="btn" class="btn btn-sm btn-success" style="visibility: hidden;" value="All Ports">
+</form>
+
+      <table id="example" class="display table table-bordered text-center" cellspacing="0" width="100%">
+        <thead class="thead-dark">
+          <tr>
+            {% for item in titles %}
+            <th>{{ item }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in datas %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><input type="checkbox" value="{{ forloop.counter }}" id="myCheck_{{ forloop.counter }}" name="choose" onclick="myFunction('{{ forloop.counter }}')"></td>
+            <td><a title='Visit' style="visibility: hidden;" class="btn btn-sm btn-info" id="btn_{{ forloop.counter }}" href="{% url 'ports' data.id data.subdomain %}">Check Ports</a></td>
+            <td>{{data.domain}}</td>
+            <td id="td_{{forloop.counter}}">{{data.subdomain}}</td>
+            <td>{{data.open_ports}}</td>
+            <td>{{data.comment}}</td>
+            <td>{{data.directories}}</td>
+            <td>{{data.ip}}</td>
+            <td>{{data.lookup}}</td>
+            <td>{{data.status}}</td>
+            <td>{{data.technology}}</td>
+            <td>{{data.urls}}</td>
+            <td>{{data.date}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+    </body>
+
+  <script>
+    $(document).ready(function (){
+    var table = $('#example').DataTable({
+        'responsive': true
+    });
+
+    // Handle click on "Expand All" button
+    $('#btn-show-all-children').on('click', function(){
+        // Expand row details
+        table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+    });
+
+    // Handle click on "Collapse All" button
+    $('#btn-hide-all-children').on('click', function(){
+        // Collapse row details
+        table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+    });
+});
+
+var subdomain = [];
+function myFunction(counter) {
+    var check = document.getElementById("myCheck_"+counter);
+    var Cells = document.getElementById("td_"+counter);
+    if (check.checked == true){
+      document.getElementById('btn_'+counter).style.visibility = 'visible';
+      subdomain.push(Cells.innerText);
+      if (subdomain.length >= 2) {
+
+        document.getElementById('subdomain').value = subdomain;
+                console.log(subdomain);
+      }
+    } else {
+      document.getElementById('btn_'+counter).style.visibility = 'hidden';
+    }
+ 
+    var checkCount = $("input[name='choose']:checked").length;
+    if(checkCount > 1)
+    {
+      document.getElementById('btn').style.visibility = 'visible';
+    }else{
+      document.getElementById('btn').style.visibility = 'hidden';
+    }
+}
+
+</script>
+
+
+{% endblock body %}

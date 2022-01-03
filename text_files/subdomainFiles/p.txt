@@ -1,0 +1,8 @@
+http://cpcalendars.eezib.com [[31mFAILED[0m]
+http://webmail.eezib.com [[31mFAILED[0m]
+https://www.eezib.com [[32mSUCCESS[0m] [68.168.220.125]
+http://mail.eezib.com [[31mFAILED[0m]
+http://webdisk.eezib.com [[31mFAILED[0m]
+https://eezib.com [[32mSUCCESS[0m] [68.168.220.125]
+http://cpcontacts.eezib.com [[31mFAILED[0m]
+http://cpanel.eezib.com [[31mFAILED[0m]
